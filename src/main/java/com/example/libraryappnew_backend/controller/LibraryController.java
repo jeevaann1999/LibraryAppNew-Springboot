@@ -1,6 +1,10 @@
 package com.example.libraryappnew_backend.controller;
 
 
+import com.example.libraryappnew_backend.dao.BooksDao;
+import com.example.libraryappnew_backend.dao.UserDao;
+import com.example.libraryappnew_backend.model.Books;
+import com.example.libraryappnew_backend.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +15,7 @@ import java.util.Map;
 public class LibraryController {
 
     @Autowired
-    private LibraryDao dao;
+    private BooksDao dao;
 
     @Autowired
     private UserDao d;
@@ -41,51 +45,31 @@ public class LibraryController {
         System.out.println(u.getUsername().toString());
         d.save(u);
         HashMap<String,String> map=new HashMap<>();
-        map.put("status","success"); return map;
+        map.put("status","success");
+        return map;
     }
+
     @CrossOrigin(origins = "*")
     @PostMapping(path = "/entry",consumes = "application/json",produces = "application/json")
-    public Map<String,String> BookEntry(@RequestBody Library l)
+    public Map<String,String> BookEntry(@RequestBody Books b)
     {
-        System.out.println(l.getTitle().toString());
-        System.out.println(l.getAuthor().toString());
-        System.out.println(l.getDescription().toString());
-        System.out.println(l.getDistributor().toString());
-        System.out.println(l.getLanguage().toString());
-        System.out.println(l.getPrice());
-        System.out.println(l.getPublisher().toString());
-        System.out.println(l.getImage().toString());
-        System.out.println(l.getReleaseyear());
-        dao.save(l);
+        System.out.println(b.getTitle().toString());
+        System.out.println(b.getAuthor().toString());
+        System.out.println(b.getDescription().toString());
+        System.out.println(b.getDistributor().toString());
+        System.out.println(b.getLanguage().toString());
+        System.out.println(b.getPrice());
+        System.out.println(b.getPublisher().toString());
+        System.out.println(b.getImage().toString());
+        System.out.println(b.getReleasedYear());
+        dao.save(b);
         HashMap<String,String> map=new HashMap<>();
         map.put("status","success");
         return map;
     }
-    @CrossOrigin(origins = "*")
-    @PostMapping(path = "/search",consumes = "application/json",produces = "application/json")
-    public List<Library> BookSearch(@RequestBody Library l)
-    {
-        String title=l.getTitle().toString();
-        System.out.println(title);
-        return (List<Library>) dao.BookSearch(l.getTitle());
-    }
-    @CrossOrigin(origins = "*")
-    @GetMapping("/view")
-    public List<Library> BookView()
-    {
-        return (List<Library>) dao.findAll();
-    }
-    @CrossOrigin(origins = "*")
-    @PostMapping(path = "/delete",consumes = "application/json",produces = "application/json")
-    public Map<String,String> BookDelete(@RequestBody Library l)
-    {
-        String id=String.valueOf(l.getId());
-        System.out.println(id);
-        dao.BookDelete(l.getId());
-        HashMap<String,String> map=new HashMap<>();
-        map.put("status","success");
-        return map;
-    }
+
+
+
     @PostMapping("/issue")
     public String BookIssue()
     {

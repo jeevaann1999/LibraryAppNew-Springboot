@@ -75,7 +75,13 @@ public class LibraryController {
         return (List<Books>)  dao.findAll();
     }
 
-
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = "/search",consumes = "application/json",produces = "application/json")
+    public List<Books> BookSearch(@RequestBody Books b) {
+        String title = b.getTitle().toString();
+        System.out.println(title);
+        return (List<Books>) dao.BookSearch(b.getTitle());
+    }
 
     @PostMapping("/issue")
     public String BookIssue()

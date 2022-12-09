@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -66,6 +67,12 @@ public class LibraryController {
         HashMap<String,String> map=new HashMap<>();
         map.put("status","success");
         return map;
+    }
+    @CrossOrigin(origins = "*")
+    @GetMapping("/view")
+    public List<Books> BookView()
+    {
+        return (List<Books>)  dao.findAll();
     }
 
 
